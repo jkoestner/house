@@ -68,12 +68,15 @@ def parse(zipcode, filter=None, fav=None):
             "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
         }
         url_page = (
-            "https://www.zillow.com/homes/for_sale/2_p/?searchQueryState=%7B%22pagination%22%3A%7B%22currentPage%22%3A"
+            "https://www.zillow.com/homes/for_sale/2_p/?searchQueryState=%7B%22"
+            + "mapBounds%22%3A%7B%22west%22%3A-77.67296870807589%2C%22east%22%3"
+            + "A-77.4154766426462%2C%22south%22%3A37.49591372350485%2C%22north%22"
+            + "%3A37.69259270012567%7D%2C%22customRegionId%22%3A%22e22635f6fdX1-"
+            + "CR15oguga8khw1q_v24ah%22%2C%22isMapVisible%22%3Atrue%2C%22filterS"
+            + "tate%22%3A%7B%7D%2C%22isListVisible%22%3Atrue%2C%22mapZoom%22%3A"
+            + "12%2C%22pagination%22%3A%7B%22currentPage%22%3A"
             + str(i)
-            + "%7D%2C%22mapBounds%22%3A%7B%22west%22%3A-78.41232395117187%2C%22east%22%3A-77.38235568945312%2C%22sou"
-            + "th%22%3A37.240232467662786%2C%22north%22%3A38.026521911858445%7D%2C%22customRegionId%22%3A%22e22635f6fd"
-            + "X1-CR15oguga8khw1q_v24ah%22%2C%22isMapVisible%22%3Atrue%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22val"
-            + "ue%22%3A%22globalrelevanceex%22%7D%7D%2C%22isListVisible%22%3Atrue%7D"
+            + "%7D%7D"
         )
         response = requests.get(url_page, headers=headers)
         print(response.status_code)
@@ -124,12 +127,15 @@ def parse(zipcode, filter=None, fav=None):
 
         i = i + 1
         url_page = (
-            "https://www.zillow.com/homes/for_sale/2_p/?searchQueryState=%7B%22pagination%22%3A%7B%22currentPage%22%3A"
+            "https://www.zillow.com/homes/for_sale/2_p/?searchQueryState=%7B%22"
+            + "mapBounds%22%3A%7B%22west%22%3A-77.67296870807589%2C%22east%22%3"
+            + "A-77.4154766426462%2C%22south%22%3A37.49591372350485%2C%22north%22"
+            + "%3A37.69259270012567%7D%2C%22customRegionId%22%3A%22e22635f6fdX1-"
+            + "CR15oguga8khw1q_v24ah%22%2C%22isMapVisible%22%3Atrue%2C%22filterS"
+            + "tate%22%3A%7B%7D%2C%22isListVisible%22%3Atrue%2C%22mapZoom%22%3A"
+            + "12%2C%22pagination%22%3A%7B%22currentPage%22%3A"
             + str(i)
-            + "%7D%2C%22mapBounds%22%3A%7B%22west%22%3A-78.41232395117187%2C%22east%22%3A-77.38235568945312%2C%22sou"
-            + "th%22%3A37.240232467662786%2C%22north%22%3A38.026521911858445%7D%2C%22customRegionId%22%3A%22e22635f6fd"
-            + "X1-CR15oguga8khw1q_v24ah%22%2C%22isMapVisible%22%3Atrue%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22val"
-            + "ue%22%3A%22globalrelevanceex%22%7D%7D%2C%22isListVisible%22%3Atrue%7D"
+            + "%7D%7D"
         )
         try:
             response = requests.get(url_page, headers=headers)
