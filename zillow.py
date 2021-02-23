@@ -19,11 +19,7 @@ def parse_url(url):
         search string to search for
 
         example
-        "https://www.zillow.com/homes/for_sale/?searchQueryState=%7B%22mapBounds%22%3A%7B%22west%22%3A-77.6"
-        + "4705753271484%2C%22east%22%3A-77.38956546728515%2C%22south%22%3A37.47601162113677%2C%22north%22%3A37"
-        + ".67274311749038%7D%2C%22mapZoom%22%3A12%2C%22isMapVisible%22%3Atrue%2C%22filterState%22%3A%7B%22sort%22%"
-        + "3A%7B%22value%22%3A%22globalrelevanceex%22%7D%7D%2C%22isListVisible%22%3Atrue%2C%22usersSearchTerm%22%3Anul"
-        + "l%2C%22customRegionId%22%3A%22e22635f6fdX1-CR15oguga8khw1q_v24ah%22%7D"
+        'https://www.zillow.com/charlottesville-va/2_p/?searchQueryState=%7B%22pagination%22%3A%7B%22currentPage%22%3A1%7D%2C%22mapBounds%22%3A%7B%22west%22%3A-78.79497156542969%2C%22east%22%3A-78.27998743457032%2C%22south%22%3A37.83147426157776%2C%22north%22%3A38.22253224678756%7D%2C%22savedSearchEnrollmentId%22%3A%22X1-SS4gv79i7zcd910000000000_4ixy2%22%2C%22mapZoom%22%3A11%2C%22regionSelection%22%3A%5B%7B%22regionId%22%3A30840%2C%22regionType%22%3A6%7D%5D%2C%22isMapVisible%22%3Atrue%2C%22filterState%22%3A%7B%22price%22%3A%7B%22max%22%3A500000%7D%2C%22con%22%3A%7B%22value%22%3Afalse%7D%2C%22apa%22%3A%7B%22value%22%3Afalse%7D%2C%22sch%22%3A%7B%22value%22%3Afalse%7D%2C%22mf%22%3A%7B%22value%22%3Afalse%7D%2C%22sort%22%3A%7B%22value%22%3A%22mostrecentchange%22%7D%2C%22land%22%3A%7B%22value%22%3Afalse%7D%2C%22manu%22%3A%7B%22value%22%3Afalse%7D%7D%2C%22isListVisible%22%3Atrue%7D'
 
     Returns
     -------
@@ -55,7 +51,7 @@ def parse_url(url):
     page_index = page.index(" of ")
     last_page = int(page[page_index + 1])
 
-    while url_error < 1 or i <= last_page:
+    while url_error < 1 and i <= last_page:
 
         for properties in search_results:
             try:
@@ -132,6 +128,7 @@ def parse_url(url):
 
         try:
             response = requests.get(url, headers=headers)
+            print(response.status_code)
             parser = html.fromstring(response.text)
             search_results = parser.xpath("//div[@id='grid-search-results']//article")
             if search_results == []:
