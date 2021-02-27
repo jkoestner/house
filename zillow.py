@@ -24,7 +24,7 @@ def parse_url(url):
     Returns
     -------
     properties_list : DataFrame
-        list of properties from Zillow
+        dataframe of properties from Zillow
     """
     properties_list = pd.DataFrame()
     url_error = 0
@@ -85,8 +85,9 @@ def parse_url(url):
             details = properties.xpath(".//ul[@class='list-card-details']//text()")
             if len(details) >= 7:
                 bed = details[0]
-                bath = details[4]
-                sqft = details[8]
+                bath = details[3]
+                sqft = details[6]
+                typ = details[9]
                 try:
                     sqft = float(sqft.replace(",", ""))
                 except:
@@ -120,6 +121,7 @@ def parse_url(url):
                 "latitude": latitude,
                 "longitude": longitude,
                 "price_per_sqft": price_per_sqft,
+                "type": typ,
             }
             properties_list = properties_list.append(properties, ignore_index=True)
 
@@ -138,3 +140,49 @@ def parse_url(url):
             pass
 
     return properties_list
+
+
+def parse_url_details(url):
+    """Parse the Zillow website for house listings.
+
+    Parameters
+    ----------
+    url : str
+        search string to search for
+
+        example
+        'https://www.zillow.com/homedetails/598-Pebblecreek-Ct-Charlottesville-VA-22901/79021376_zpid/'
+
+    Returns
+    -------
+    detail_df : DataFrame
+        DataFrame of property details
+    """
+    detail_df = pd.DataFrame()
+    headers = {
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "en-US,en;q=0.8",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36",
+    }
+
+    response = requests.get(url, headers=headers)
+    print(response.status_code)
+    parser = html.fromstring(response.text)
+    search_results = parser.xpath(
+        "//div[@class='ds-home-facts-and-features reso-facts-features sheety-facts-features']//ul"
+    )
+    if not search_results:
+        print("no results and captcha")
+        print(parser[1][0][0][0][0])
+
+    detail = {"url": url}
+    for result in search_results:
+        temp = result.xpath(".//span[starts-with(@class, Text)]//text()")
+        temp_dict = dict(zip(temp[::2], temp[1::2]))
+        detail.update(temp_dict)
+
+    detail_df = detail_df.append(detail, ignore_index=True)
+
+    return detail_df
